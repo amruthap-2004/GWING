@@ -1,0 +1,35 @@
+source_text,plagiarized_text,label
+"Researchers have discovered a new species of butterfly in the Amazon rainforest.","Scientists have found a previously unknown butterfly species in the Amazon jungle.",1
+"The moon orbits the Earth in approximately 27.3 days.","Our natural satellite takes around 27.3 days to complete one orbit around our planet.",1
+"Water is composed of two hydrogen atoms and one oxygen atom.","H2O consists of 2 hydrogen atoms and 1 oxygen atom.",1
+"The history of Rome dates back to 753 BC.","Rome has a long history that can be traced back to 753 BC.",1
+"Pluto was once considered the ninth planet in our solar system.","In the past, Pluto was classified as the ninth planet in our sun's planetary system.",1
+"This is a unique and original sentence.","This sentence is unique and original.",0
+"Artificial intelligence is reshaping industries.","AI is changing the landscape of various sectors.",0
+"Python is a popular programming language for data science.","Data science often relies on Python as a widely used programming language.",0
+"The Earth revolves around the Sun in a nearly circular orbit.","Our planet follows an almost circular path as it moves around the central star.",0
+"Paris is the capital of France.","France's capital city is Paris.",0
+"The Great Wall of China is visible from space.","It is said that astronauts can see the Great Wall of China from space.",1
+"Photosynthesis is the process by which plants make food.","Plants use photosynthesis to produce their own food.",1
+"The Pacific Ocean is the largest ocean on Earth.","Earth's biggest ocean is the Pacific.",1
+"The speed of light is approximately 299,792 kilometers per second.","Light travels at about 299,792 km per second.",1
+"Mount Everest is the highest mountain in the world.","The tallest mountain on Earth is Mount Everest.",1
+"The Amazon River flows through South America.","South America is home to the Amazon River.",1
+"The human heart has four chambers.","There are four chambers in the human heart.",1
+"The Sahara is the largest hot desert in the world.","The world's biggest hot desert is the Sahara.",1
+"Venus is the second planet from the Sun.","The planet that comes after Mercury is Venus.",1
+"The Statue of Liberty was a gift from France to the United States.","France gave the Statue of Liberty to the US as a present.",1
+"The cheetah is the fastest land animal.","No land animal is faster than the cheetah.",1
+"The internet was invented in the late 20th century.","The invention of the internet happened in the late 1900s.",1
+"The boiling point of water is 100 degrees Celsius at sea level.","At sea level, water boils at 100°C.",1
+"The Mona Lisa was painted by Leonardo da Vinci.","Leonardo da Vinci is the artist behind the Mona Lisa.",1
+"The capital of Japan is Tokyo.","Tokyo is the capital city of Japan.",0
+"Dogs are known as man's best friend.","People often call dogs man's best friend.",0
+"Basketball was invented by James Naismith.","James Naismith created the game of basketball.",0
+"The sun rises in the east and sets in the west.","Every day, the sun comes up in the east and goes down in the west.",0
+"A leap year has 366 days.","There are 366 days in a leap year.",0
+"Honey never spoils and can last thousands of years.","Honey can remain edible for thousands of years without spoiling.",0
+"Shakespeare wrote Romeo and Juliet.","Romeo and Juliet was written by Shakespeare.",0
+"The blue whale is the largest animal ever known to have lived.","No animal, past or present, is larger than the blue whale.",0
+"The Eiffel Tower is located in Paris, France.","Paris, France is home to the Eiffel Tower.",0
+"The piano has 88 keys.","There are 88 keys on a standard piano.",0 

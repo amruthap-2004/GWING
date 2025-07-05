@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Generation AI</title>
+    <style>
+        :root {
+            --main-bg: repeating-linear-gradient(135deg, #f3e7e9 0px, #f3e7e9 40px, #e3eeff 40px, #e3eeff 80px);
+            --container-bg: white;
+            --container-border: linear-gradient(135deg, #ffb347, #ff5e62, #36d1c4, #667eea, #764ba2) 1;
+            --label-color: #36d1c4;
+            --h1-color: #764ba2;
+            --button-bg: linear-gradient(270deg, #ffb347, #ff5e62, #36d1c4, #667eea, #764ba2, #ffb347);
+            --button-bg-size: 1200% 1200%;
+            --button-shadow: 0 2px 8px #764ba233;
+            --result-bg: linear-gradient(135deg, #e3ffe7 0%, #ffe3fa 100%);
+            --result-border: #36d1c4;
+            --result-h3: #ff5e62;
+            --range-value-bg: #ffe3fa;
+            --range-value-color: #ff5e62;
+            --input-bg: #f9f7fd;
+            --input-border-focus: #ff5e62;
+            --loading-color: #764ba2;
+            --error-bg: #fed7d7;
+            --error-color: #e53e3e;
+            --text-color: #333;
+        }
+        body.dark {
+            --main-bg: repeating-linear-gradient(135deg, #232526 0px, #232526 40px, #414345 40px, #414345 80px);
+            --container-bg: #232526;
+            --container-border: linear-gradient(135deg, #36d1c4, #764ba2, #ff5e62, #ffb347, #667eea) 1;
+            --label-color: #ffb347;
+            --h1-color: #ff5e62;
+            --button-bg: linear-gradient(270deg, #36d1c4, #764ba2, #ff5e62, #ffb347, #667eea, #36d1c4);
+            --button-bg-size: 1200% 1200%;
+            --button-shadow: 0 2px 8px #ff5e6244;
+            --result-bg: linear-gradient(135deg, #232526 0%, #414345 100%);
+            --result-border: #ff5e62;
+            --result-h3: #ffb347;
+            --range-value-bg: #414345;
+            --range-value-color: #ffb347;
+            --input-bg: #232526;
+            --input-border-focus: #36d1c4;
+            --loading-color: #ffb347;
+            --error-bg: #764ba2;
+            --error-color: #ff5e62;
+            --text-color: #f3e7e9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--main-bg);
+            min-height: 100vh;
+            color: var(--text-color);
+            transition: background 0.5s, color 0.5s;
+        }
+        .container {
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 4px solid;
+            border-image: var(--container-border);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: border-anim 6s linear infinite;
+        }
+        @keyframes border-anim {
+            0% { border-image-slice: 1; }
+            50% { border-image-slice: 1; }
+            100% { border-image-slice: 1; }
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -40px; left: -40px; right: -40px; bottom: -40px;
+            background: radial-gradient(circle at 20% 20%, #ffe3fa 0%, transparent 60%),
+                        radial-gradient(circle at 80% 80%, #e3ffe7 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        h1 {
+            text-align: center;
+            color: var(--h1-color);
+            margin-bottom: 30px;
+            font-size: 2.7em;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #ffe3fa;
+            position: relative;
+            z-index: 1;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 18px;
+            right: 30px;
+            z-index: 2;
+            background: var(--button-bg);
+            background-size: var(--button-bg-size);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #764ba233;
+            transition: background 0.5s, transform 0.2s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(-10deg);
+        }
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--label-color);
+            letter-spacing: 1px;
+        }
+        input[type="text"], input[type="number"], input[type="range"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--input-border-focus);
+            box-shadow: 0 0 8px #ffb34755;
+        }
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .range-container input[type="range"] {
+            flex: 1;
+            accent-color: #ff5e62;
+        }
+        .range-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--range-value-color);
+            background: var(--range-value-bg);
+            border-radius: 8px;
+            padding: 4px 10px;
+            box-shadow: 0 1px 4px #ffb34733;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--button-bg);
+            background-size: var(--button-bg-size);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 1s;
+            box-shadow: var(--button-shadow);
+            letter-spacing: 1px;
+            animation: button-gradient 6s ease-in-out infinite;
+        }
+        @keyframes button-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        button:hover {
+            transform: translateY(-3px) scale(1.03) rotate(-1deg);
+            box-shadow: 0 6px 18px #ff5e6244;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 22px;
+            background: var(--result-bg);
+            border-radius: 12px;
+            border-left: 6px solid var(--result-border);
+            box-shadow: 0 2px 8px #36d1c433;
+            position: relative;
+            z-index: 1;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: var(--result-h3);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .loading {
+            text-align: center;
+            color: var(--loading-color);
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .error {
+            color: var(--error-color);
+            background: var(--error-bg);
+            padding: 10px;
+            border-radius: 7px;
+            margin-top: 10px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        /* Confetti styles */
+        .confetti {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            opacity: 0.8;
+            will-change: transform;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">🌙</button>
+        <h1>🤖 Text Generation AI</h1>
+        <p style="text-align: center; color: #718096; margin-bottom: 30px; font-size: 1.1em;">
+            Enter a seed statement and watch the AI generate creative text!
+        </p>
+        
+        <div class="form-group">
+            <label for="seedText">Seed Text:</label>
+            <input type="text" id="seedText" placeholder="Enter your starting text here..." value="Once upon a time">
+        </div>
+        
+        <div class="form-group">
+            <label for="wordCount">Number of Words to Generate:</label>
+            <input type="number" id="wordCount" min="1" max="50" value="10">
+        </div>
+        
+        <div class="form-group">
+            <label for="temperature">Creativity Level (Temperature):</label>
+            <div class="range-container">
+                <input type="range" id="temperature" min="0.1" max="2.0" step="0.1" value="1.0">
+                <span class="range-value" id="tempValue">1.0</span>
+            </div>
+        </div>
+        
+        <button onclick="generateText()" id="generateBtn">🎉 Generate Text</button>
+        
+        <div id="result" class="result" style="display: none;">
+            <h3>✨ Generated Text:</h3>
+            <p id="generatedText"></p>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            Generating text... Please wait...
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        <div class="confetti" id="confetti"></div>
+    </div>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark');
+            themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        });
+
+        // Update temperature value display
+        document.getElementById('temperature').addEventListener('input', function() {
+            document.getElementById('tempValue').textContent = this.value;
+        });
+
+        async function generateText() {
+            const seedText = document.getElementById('seedText').value.trim();
+            const wordCount = parseInt(document.getElementById('wordCount').value);
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            
+            if (!seedText) {
+                showError('Please enter some seed text.');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        seed_text: seedText,
+                        next_words: wordCount,
+                        temperature: temperature
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('generatedText').textContent = data.generated_text;
+                    document.getElementById('result').style.display = 'block';
+                    launchConfetti();
+                } else {
+                    showError(data.error || 'An error occurred while generating text.');
+                }
+            } catch (error) {
+                showError('Network error. Please try again.');
+            } finally {
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        // Allow Enter key to generate text
+        document.getElementById('seedText').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateText();
+            }
+        });
+
+        // Confetti animation
+        function launchConfetti() {
+            const confetti = document.getElementById('confetti');
+            confetti.innerHTML = '';
+            const colors = ['#ffb347', '#ff5e62', '#36d1c4', '#667eea', '#764ba2', '#ffe3fa', '#e3ffe7'];
+            const numConfetti = 40;
+            for (let i = 0; i < numConfetti; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-20px';
+                piece.style.opacity = 0.7 + Math.random() * 0.3;
+                piece.style.transform = `scale(${0.7 + Math.random() * 0.6})`;
+                confetti.appendChild(piece);
+                animateConfetti(piece, i);
+            }
+            setTimeout(() => { confetti.innerHTML = ''; }, 2000);
+        }
+        function animateConfetti(piece, i) {
+            const duration = 1200 + Math.random() * 800;
+            const xMove = (Math.random() - 0.5) * 200;
+            const yMove = 350 + Math.random() * 100;
+            piece.animate([
+                { transform: piece.style.transform + ' translateY(0) translateX(0)', opacity: piece.style.opacity },
+                { transform: piece.style.transform + ` translateY(${yMove}px) translateX(${xMove}px) rotate(${Math.random()*360}deg)`, opacity: 0.2 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(.62,.28,.23,.99)',
+                fill: 'forwards',
+                delay: i * 10
+            });
+        }
+    </script>
+</body>
+</html> 
